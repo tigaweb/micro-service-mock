@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package book;
+
+import "google/protobuf/empty.proto";
+
+option go_package = "gihyo/catalogue/proto/book";
+
+service Catalogue {
+  rpc GetBook(GetBookRequest) returns (GetBookResponse) {}
+  rpc ListBooks(google.protobuf.Empty) returns (ListBooksResponse) {}
+}
+
+message GetBookRequest {
+  int32 id = 1;
+}
+
+message GetBookResponse {
+  Book book = 1;
+}
+
+message ListBooksResponse {
+  repeated Book books = 1;
+}
+
+message Book {
+  int32 id = 1;
+  string title = 2;
+  string author = 3;
+  int32 price = 4;
+}
