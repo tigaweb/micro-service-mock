@@ -5,7 +5,7 @@ const ProtoPath = "./proto/catalogue.proto";
 const packageDefinition = protoLoader.loadSync(ProtoPath);
 const catalogue_proto = grpc.loadPackageDefinition(packageDefinition).book;
 
-const clientUri = "localhost:50051";
+const clientUri = process.env.CATALOGUE_CLIENT_URI || "localhost:50051"
 console.log(clientUri);
 
 const client = new catalogue_proto.Catalogue(

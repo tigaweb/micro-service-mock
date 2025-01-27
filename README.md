@@ -247,3 +247,7 @@ BFFからバックエンドに通信を行うためcatalogue.jsを実装する�
 ReactからGraphQLでBFFに疎通、BFFからgRPCでバックエンドに疎通する構成にする。
 
 ※サーバサイドの実装を主とするため、本コードの実装は最低限 
+
+### インフラ構成(ローカルKubernetes)
+
+[こちら](./infra-k8s/README.md)に記載

@@ -64,6 +64,28 @@ DB接続情報など、ビルド時にイメージに持たせると情報流出
 
 k8sでもSecretリソースなどを適切に設定することでコンテナの起動時にファイルや環境変数として秘匿情報を渡すことができる。
 
+## Dockerレジストリ
+
+DockerレジストリとしてGitHub Container Registryを利用する。
+
+イメージはGitHub Container Registryに対応する形で命名する必要がある。
+
+イメージのビルド
+
+```
+$ docker build -t ghcr.io/<your-username>/<image-name>:<tag> .
+$ docker build -t ghcr.io/tigaweb/bff:0.1 bff/
+$ docker build -t ghcr.io/tigaweb/catalogue:0.1 catalogue/
+$ docker build -t ghcr.io/tigaweb/frontend:0.1 frontend/
+```
+
+イメージのプッシュ
+```
+$ docker push ghcr.io/tigaweb/bff:0.1
+$ docker push ghcr.io/tigaweb/catalogue:0.1
+$ docker push ghcr.io/tigaweb/frontend:0.1
+```
+
 ## kind
 
 kindは`Kubernetes in Docker`の略で、Dockerコンテナノードを使ってローカル上でKubernetesを実行するツール。
@@ -83,4 +105,28 @@ kind version 0.23.0
 $ kind create cluster
 $ kind get clusters
 kind
+```
+
+### マニュフェスト
+
+下記に記載
+
+- `./bff/k8s/bff.yml`
+- `./catalogue/k8s/catalogue.yaml`
+- `./frontend/k8s/frontend.yaml`
+
+### デプロイ
+
+```
+$ cd infra-k8s
+$ kubectl apply -f ./bff/k8s/bff.yml
+$ kubectl apply -f ./catalogue/k8s/catalogue.yaml
+$ kubectl apply -f ./frontend/k8s/frontend.yaml
+
+正常に登録できた場合
+$ kubectl get pod -n default                     
+NAME                         READY   STATUS    RESTARTS   AGE
+bff-7f6969c57d-zp7vs         1/1     Running   0          17m
+calalogue-664cd8b5df-5d7hw   1/1     Running   0          15s
+frontend-87776449-zvdhb      1/1     Running   0          4s
 ```

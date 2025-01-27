@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: catalogue
+spec:
+  selector:
+    app: catalogue
+  ports:
+    - name: grpc-catalogue
+      protocol: TCP
+      port: 50051
+      targetPort: 50051
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: calalogue
+  labels:
+    app: catalogue
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: catalogue
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: catalogue
+        version: v1
+    spec:
+      containers:
+        - name: catalogue
+          image: ghcr.io/tigaweb/catalogue:0.1
+          ports:
+            - containerPort: 50051
